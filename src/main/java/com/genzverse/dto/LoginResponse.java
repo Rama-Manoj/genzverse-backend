@@ -1,53 +1,52 @@
 package com.genzverse.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
-@Getter
-@AllArgsConstructor
-public class LoginResponse 
+public class LoginResponse
 {
     private String token;
-
     private String username;
-
     private String role;
-    
-    public LoginResponse() {
-		// TODO Auto-generated constructor stub
-	}
 
-	public LoginResponse(String token, String username, String role) {
-		super();
-		this.token = token;
-		this.username = username;
-		this.role = role;
-	}
+    public LoginResponse()
+    {
+    }
 
-	public String getToken() {
-		return token;
-	}
+    public LoginResponse(
+            String token,
+            String username,
+            String role)
+    {
+        this.token = token;
+        this.username = username;
+        this.role = role;
+    }
 
-	public void setToken(String token) {
-		this.token = token;
-	}
+    public String getToken()
+    {
+        return token;
+    }
 
-	public String getUsername() {
-		return username;
-	}
+    public void setToken(String token)
+    {
+        this.token = token;
+    }
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    public String getUsername()
+    {
+        return username;
+    }
 
-	public String getRole() {
-		return role;
-	}
+    public void setUsername(String username)
+    {
+        this.username = username;
+    }
 
-	public void setRole(String role) {
-		this.role = role;
-	}
-    
-    
-    
+    public String getRole()
+    {
+        return role;
+    }
+
+    public void setRole(String role)
+    {
+        this.role = role;
+    }
 }
