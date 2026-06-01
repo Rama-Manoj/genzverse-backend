@@ -15,6 +15,7 @@ public class EmailService
         this.mailSender = mailSender;
     }
 
+    @Async
     public void sendEmail(
             String to,
             String subject,
