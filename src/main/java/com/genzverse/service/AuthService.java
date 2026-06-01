@@ -68,14 +68,21 @@ public class AuthService
 
         userRepository.save(user);
         
-        emailService.sendEmail(
-                user.getEmail(),
-                "Verify Your GenZVerse Account",
-                "Your verification token is: "
-                        + user.getVerificationToken()
-        );
-
-        return "User registered successfully";
+		try
+		{
+		    emailService.sendEmail(
+		            user.getEmail(),
+		            "Verify Your GenZVerse Account",
+		            "Your verification token is: "
+		                    + user.getVerificationToken()
+		    );
+		}
+		catch (Exception e)
+		{
+		    return "User registered successfully, but verification email could not be sent.";
+		}
+		
+		return "User registered successfully. Verification email sent.";
     }
 
     public LoginResponse login(LoginRequest request)
