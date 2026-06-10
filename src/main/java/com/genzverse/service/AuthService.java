@@ -70,16 +70,23 @@ public class AuthService
         
 		try
 		{
-		    emailService.sendEmail(
-		            user.getEmail(),
-		            "Verify Your GenZVerse Account",
-		            "Your verification token is: "
-		                    + user.getVerificationToken()
-		    );
+			String verificationLink =
+			        "https://genzverse-backend.onrender.com/api/auth/verify-email?token="
+			        + user.getVerificationToken();
+			
+			emailService.sendEmail(
+			        user.getEmail(),
+			        "Verify Your GenZVerse Account",
+			        "Welcome to GenZVerse!\n\n"
+			        + "Click the link below to verify your email:\n\n"
+			        + verificationLink
+			);
+			
 		}
 		catch (Exception e)
 		{
-		    return "User registered successfully, but verification email could not be sent.";
+		    e.printStackTrace();
+		    throw new RuntimeException(e);
 		}
 		
 		return "User registered successfully. Verification email sent.";
