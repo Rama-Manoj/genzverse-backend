@@ -60,14 +60,15 @@ public class AuthService
 
         user.setCreatedAt(LocalDateTime.now());
         
-        user.setEmailVerified(false);
+        user.setEmailVerified(true);
 
         user.setVerificationToken(
                 UUID.randomUUID().toString()
         );
 
         userRepository.save(user);
-        
+
+		/*
 		try
 		{
 			String verificationLink =
@@ -87,9 +88,9 @@ public class AuthService
 		{
 		    e.printStackTrace();
 		    throw new RuntimeException(e);
-		}
+		} */
 		
-		return "User registered successfully. Verification email sent.";
+		return "User registered successfully.";
     }
 
     public LoginResponse login(LoginRequest request)
@@ -97,12 +98,6 @@ public class AuthService
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() ->
                         new RuntimeException("Invalid email or password"));
-        if(!user.isEmailVerified())
-        {
-            throw new UnauthorizedException(
-                    "Please verify your email first"
-            );
-        }
 
         boolean passwordMatches = passwordEncoder.matches(
                 request.getPassword(),
