@@ -6,6 +6,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 
 @SpringBootApplication
 @EnableAsync	
+@EnableScheduling	
 public class GenzverseApplication {
 
 	public static void main(String[] args) {
