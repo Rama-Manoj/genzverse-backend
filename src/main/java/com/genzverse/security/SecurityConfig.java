@@ -7,6 +7,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -60,16 +61,19 @@ public class SecurityConfig
                 
                 .authorizeHttpRequests(auth -> auth
 
-                		.requestMatchers(
-                				"/api/auth/**",
-                			    "/api/authors/**",
-                			    "/swagger-ui/**",
-                			    "/v3/api-docs/**"
-                		).permitAll()
-
+                        .requestMatchers(HttpMethod.OPTIONS, "/**")
+                        .permitAll()
+                
+                        .requestMatchers(
+                                "/api/auth/**",
+                                "/api/authors/**",
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**"
+                        ).permitAll()
+                
                         .requestMatchers("/api/admin/**")
                         .hasRole("ADMIN")
-
+                
                         .anyRequest()
                         .authenticated()
                 )
