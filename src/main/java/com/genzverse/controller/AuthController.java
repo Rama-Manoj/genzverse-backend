@@ -23,11 +23,25 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/auth")
 public class AuthController 
 {
+    private final EmailService emailService;
     private final AuthService authService;
 
-    public AuthController(AuthService authService)
+    public AuthController( AuthService authService, EmailService emailService)
     {
         this.authService = authService;
+        this.emailService = emailService;
+    }
+
+    @GetMapping("/test-email")
+    public String testEmail()
+    {
+        emailService.sendEmail(
+                "yourgmail@gmail.com",
+                "GenZVerse Test",
+                "Email service is working"
+        );
+    
+        return "Triggered";
     }
 
     @PostMapping("/register")
