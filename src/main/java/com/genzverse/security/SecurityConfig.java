@@ -91,20 +91,16 @@ public class SecurityConfig
     
         CorsConfiguration configuration = new CorsConfiguration();
     
-        configuration.setAllowedOrigins(List.of(
+        configuration.setAllowedOriginPatterns(List.of(
                 "http://localhost:5173",
-                "https://genzversefrontend.vercel.app"
+                "https://*.vercel.app"
         ));
     
-        configuration.setAllowedMethods(List.of(
-                "GET",
-                "POST",
-                "PUT",
-                "DELETE",
-                "OPTIONS"
-        ));
+        configuration.setAllowedMethods(List.of("*"));
     
         configuration.setAllowedHeaders(List.of("*"));
+    
+        configuration.setExposedHeaders(List.of("*"));
     
         configuration.setAllowCredentials(true);
     
