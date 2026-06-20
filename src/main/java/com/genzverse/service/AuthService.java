@@ -60,14 +60,15 @@ public class AuthService
 
         user.setCreatedAt(LocalDateTime.now());
         
-        user.setEmailVerified(false);
+//        user.setEmailVerified(false);
+        user.setEmailVerified(true);
 
         user.setVerificationToken(
                 UUID.randomUUID().toString()
         );
 
-        userRepository.save(user);
 
+        /*
 		try
 		{
 			String verificationLink =
@@ -107,8 +108,11 @@ public class AuthService
 		    e.printStackTrace();
 		    throw new RuntimeException(e);
 		} 
+		*/
 		
-		return "User registered successfully.";
+        userRepository.save(user);
+
+        return "User registered successfully.";
     }
 
     public LoginResponse login(LoginRequest request)
@@ -122,12 +126,12 @@ public class AuthService
                 user.getPassword()
         );
 
-        if(!user.isEmailVerified())
-        {
-        	throw new RuntimeException(
-        			"Please verify your email first"
-        			);
-        }
+//        if(!user.isEmailVerified())
+//        {
+//        	throw new RuntimeException(
+//        			"Please verify your email first"
+//        			);
+//        }
 
         if(!passwordMatches)
         {
