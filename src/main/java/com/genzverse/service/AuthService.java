@@ -71,7 +71,7 @@ public class AuthService
 		try
 		{
 			String verificationLink =
-			        "https://genzversefrontend.vercel.app/reset-password?token="
+					 "https://genzverse-backend.onrender.com/api/auth/verify-email?token="
 			        + user.getVerificationToken();
 			
 			String html = """
@@ -168,7 +168,7 @@ public class AuthService
         userRepository.save(user);
         
         String resetLink =
-                "https://your-frontend-url.vercel.app/reset-password?token="
+        		 "https://genzverse-backend.onrender.com/api/auth/verify-email?token="
                 + token;
 
         String html = """
