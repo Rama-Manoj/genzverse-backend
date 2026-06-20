@@ -71,16 +71,35 @@ public class AuthService
 		try
 		{
 			String verificationLink =
-			        "https://genzverse-backend.onrender.com/api/auth/verify-email?token="
+			        "https://genzversefrontend.vercel.app/reset-password?token="
 			        + user.getVerificationToken();
 			
-			emailService.sendEmail(
-			        user.getEmail(),
-			        "Verify Your GenZVerse Account",
-			        "Welcome to GenZVerse!\n\n"
-			        + "Click the link below to verify your email:\n\n"
-			        + verificationLink
-			);
+			String html = """
+					<html>
+					<body>
+					    <h2>Welcome to GenZVerse</h2>
+
+					    <p>Please verify your email address.</p>
+
+					    <a href="%s"
+					       style="
+					           background:#2563eb;
+					           color:white;
+					           padding:12px 20px;
+					           text-decoration:none;
+					           border-radius:5px;">
+					        Verify Email
+					    </a>
+
+					</body>
+					</html>
+					""".formatted(verificationLink);
+
+					emailService.sendEmail(
+					        user.getEmail(),
+					        "Verify Your GenZVerse Account",
+					        html
+					);
 			
 		}
 		catch (Exception e)
@@ -103,10 +122,18 @@ public class AuthService
                 user.getPassword()
         );
 
+        if(!user.isEmailVerified())
+        {
+        	throw new RuntimeException(
+        			"Please verify your email first"
+        			);
+        }
+
         if(!passwordMatches)
         {
             throw new RuntimeException("Invalid email or password");
         }
+        
 
         String token = jwtService.generateToken(
                 user.getEmail(),
@@ -140,12 +167,38 @@ public class AuthService
 
         userRepository.save(user);
         
+        String resetLink =
+                "https://your-frontend-url.vercel.app/reset-password?token="
+                + token;
+
+        String html = """
+        <html>
+        <body>
+
+        <h2>Password Reset</h2>
+
+        <p>Click the button below to reset your password.</p>
+
+        <a href="%s"
+           style="
+              background:#dc2626;
+              color:white;
+              padding:12px 20px;
+              text-decoration:none;
+              border-radius:5px;">
+              Reset Password
+        </a>
+
+        </body>
+        </html>
+        """.formatted(resetLink);
+
         emailService.sendEmail(
                 user.getEmail(),
                 "Reset Your Password",
-                "Your password reset token is: "
-                        + token
+                html
         );
+        
 
         return "Password reset email sent";
 

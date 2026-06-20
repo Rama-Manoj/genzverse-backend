@@ -16,11 +16,13 @@ public class EmailService {
 
         this.resend = new Resend(apiKey);
     }
-
+    
     public void sendEmail(
             String to,
             String subject,
-            String body) {
+            String html)
+    {
+
 
         try {
 
@@ -29,7 +31,7 @@ public class EmailService {
                             .from("onboarding@resend.dev")
                             .to(to)
                             .subject(subject)
-                            .text(body)
+                            .html(html)
                             .build();
 
             resend.emails().send(params);
