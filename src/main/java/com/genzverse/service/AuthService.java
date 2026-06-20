@@ -60,7 +60,7 @@ public class AuthService
 
         user.setCreatedAt(LocalDateTime.now());
         
-        user.setEmailVerified(true);
+        user.setEmailVerified(false);
 
         user.setVerificationToken(
                 UUID.randomUUID().toString()
@@ -68,7 +68,6 @@ public class AuthService
 
         userRepository.save(user);
 
-		/*
 		try
 		{
 			String verificationLink =
@@ -88,7 +87,7 @@ public class AuthService
 		{
 		    e.printStackTrace();
 		    throw new RuntimeException(e);
-		} */
+		} 
 		
 		return "User registered successfully.";
     }

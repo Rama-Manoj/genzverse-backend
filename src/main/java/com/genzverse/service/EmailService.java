@@ -1,36 +1,42 @@
 package com.genzverse.service;
 
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.scheduling.annotation.Async;
+
+import com.resend.Resend;
+import com.resend.services.emails.model.CreateEmailOptions;
 
 @Service
-public class EmailService
-{
-    private final JavaMailSender mailSender;
+public class EmailService {
+
+    private final Resend resend;
 
     public EmailService(
-            JavaMailSender mailSender)
-    {
-        this.mailSender = mailSender;
+            @Value("${resend.api.key}") String apiKey) {
+
+        this.resend = new Resend(apiKey);
     }
 
-    @Async
     public void sendEmail(
             String to,
             String subject,
-            String body)
-    {
-        SimpleMailMessage message =
-                new SimpleMailMessage();
+            String body) {
 
-        message.setTo(to);
+        try {
 
-        message.setSubject(subject);
+            CreateEmailOptions params =
+                    CreateEmailOptions.builder()
+                            .from("onboarding@resend.dev")
+                            .to(to)
+                            .subject(subject)
+                            .text(body)
+                            .build();
 
-        message.setText(body);
+            resend.emails().send(params);
 
-        mailSender.send(message);
+        } catch (Exception e) {
+            throw new RuntimeException(
+                    "Failed to send email", e);
+        }
     }
 }
